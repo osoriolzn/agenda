@@ -2,97 +2,49 @@
 {% load static %}
 {% block content %}
 
-<div class="">
-
-    <style>
-        .group:hover .group-hover\:flex {
-            display: flex;
-        }
-    </style>
-
-    <div class="text-gray-700 mx-0 md:mx-8">
-        <div class="flex flex-grow h-screen overflow-auto">
-            <div class="flex flex-col flex-grow">
-
-                <div class="flex items-center mt-4">
-                    <div class="flex ml-6">
-                        <button>
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <button>
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                    <h2 class="ml-2 text-xl font-bold leading-none">{{ month_letter }}, {{ year }}</h2>
-                </div>
-
-                <div class="grid grid-cols-7 mt-4">
-                    <div class="pl-1 text-base font-bold">Lun</div>
-                    <div class="pl-1 text-base font-bold">Mar</div>
-                    <div class="pl-1 text-base font-bold">Mie</div>
-                    <div class="pl-1 text-base font-bold">Jue</div>
-                    <div class="pl-1 text-base font-bold">Vie</div>
-                    <div class="pl-1 text-base font-bold">Sab</div>
-                    <div class="pl-1 text-base font-bold">Dom</div>
-                </div>
-                {% for week in calendar %}
-                <div class="grid flex-grow w-full h-auto grid-cols-7 gap-px pt-px mt-1 bg-green-50">
-                    {% for day in week %}
-                        {% if day == 0 %}
-                        <div></div>
-                        {% else %}
-                            {% if day == current_day %}
-                            <div class="relative flex flex-col bg-pink-300 rounded group">
-                                <span class="mx-2 my-1 text-lg font-bold">
-                                    <p class="bg-transparent w-8 h-8 rounded-full text-center">{{ day }}</p>
-
-                                </span>
-                                <div class="flex flex-col px-1 py-1 overflow-auto">
-                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">
-                                        <span class="flex-shrink-0 w-2 h-2 border border-gray-500 rounded-full"></span>
-                                        <span class="ml-2 font-light leading-none">8:30am</span>
-                                        <span class="ml-2 font-medium leading-none truncate">An unconfirmed event</span>
-                                    </button>
-                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">
-                                        <span class="flex-shrink-0 w-2 h-2 bg-gray-500 rounded-full"></span>
-                                        <span class="ml-2 font-light leading-none">2:15pm</span>
-                                        <span class="ml-2 font-medium leading-none truncate">A confirmed event</span>
-                                    </button>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="relative flex flex-col bg-white rounded group">
-                                <span class="mx-2 my-1 text-lg font-bold">
-                                    <p class=" w-8 h-8 rounded-full text-center">{{ day }}</p>
-                                </span>
-                                <div class="flex flex-col px-1 py-1 overflow-auto">
-                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">
-                                        <span class="flex-shrink-0 w-2 h-2 border border-gray-500 rounded-full"></span>
-                                        <span class="ml-2 font-light leading-none">8:30am</span>
-                                        <span class="ml-2 font-medium leading-none truncate">An unconfirmed event</span>
-                                    </button>
-                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">
-                                        <span class="flex-shrink-0 w-2 h-2 bg-gray-500 rounded-full"></span>
-                                        <span class="ml-2 font-light leading-none">2:15pm</span>
-                                        <span class="ml-2 font-medium leading-none truncate">A confirmed event</span>
-                                    </button>
-                                </div>                        
-                            </div>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+<form class="px-1 md:px-10 pt-4">
+    {% csrf_token %}
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="services" id="services" list="listservices" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <datalist id="listservices">
+                {% for service in services %}
+                <option value="{{ service }}"></option>
                 {% endfor %}
-            </div>
+            </datalist>
+            <label for="services" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Seleccione un Servicio</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="datetime-local" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Turno</label>
         </div>
     </div>
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apellido</label>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Número de Celular (123-456-7890)</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="delivery" id="delivery" list="optdelivery" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <datalist id="optdelivery">
+                    <option>Si</option>
+                    <option>No</option>
+                </datalist>
+            </section>
+            <label for="delivery" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">¿El servicio es en su domicilio?</label>
+        </div>
+    </div>
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Enviar</button>
+</form>
 
-    {% endblock content %}
+{% endblock content %}
