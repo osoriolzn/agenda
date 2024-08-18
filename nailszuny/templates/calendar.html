@@ -1,0 +1,86 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="">
+    <style>
+        .group:hover .group-hover\:flex {
+            display: flex;
+        }
+    </style>
+
+    <div class="text-gray-700 mx-0 md:mx-8">
+        <div class="flex flex-grow h-screen overflow-auto">
+            <div class="flex flex-col flex-grow">
+
+                <div class="flex items-center mt-4">
+                    <div class="flex ml-6">
+                        <button>
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button>
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h2 class="ml-2 text-xl font-bold leading-none">{{ month_letter }}, {{ year }}</h2>
+                </div>
+
+                <div class="grid grid-cols-7 mt-4">
+                    <div class="pl-1 text-base font-bold">Lun</div>
+                    <div class="pl-1 text-base font-bold">Mar</div>
+                    <div class="pl-1 text-base font-bold">Mie</div>
+                    <div class="pl-1 text-base font-bold">Jue</div>
+                    <div class="pl-1 text-base font-bold">Vie</div>
+                    <div class="pl-1 text-base font-bold">Sab</div>
+                    <div class="pl-1 text-base font-bold">Dom</div>
+                </div>
+                {% for week in calendar %}
+                <div class="grid flex-grow w-full h-auto grid-cols-7 gap-1 pt-px mt-1 bg-green-50">
+                    {% for day in week %}
+                        {% if day == 0 %}
+                        <div></div>
+                        {% else %}
+                            {% if day == current_day %}
+                            <div class="relative flex flex-col bg-white rounded group">
+                                <div class="mx-2 my-1 text-lg font-bold flex flex-row">
+                                    <span class="bg-pink-300 w-8 h-8 rounded-full text-center">{{ day }}</span>
+                                </div>
+                                <div class="flex flex-col px-1 py-1 overflow-auto">
+                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs bg-blue-400 hover:bg-pink-300 rounded">
+                                        <span class="ml-2 font-light leading-none">4:00pm</span>
+                                        <span class="ml-2 font-medium leading-none truncate">Disponible</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="relative flex flex-col bg-white rounded group">
+                                <div class="mx-2 my-1 text-lg font-bold">
+                                    <span class=" w-8 h-8 rounded-full text-center">{{ day }}</span>
+                                </div>
+                                <div class="flex flex-col px-1 py-1 overflow-auto">
+                                    {% if day < current_day %}
+                                    <span></span>
+                                    {% else %}
+                                    <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs bg-blue-400 hover:bg-pink-300 rounded">
+                                        <span class="ml-2 font-light leading-none">4:00pm</span>
+                                        <span class="ml-2 font-medium leading-none truncate">Disponible</span>
+                                    </button>
+                                    {% endif %}
+                                </div>                        
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
